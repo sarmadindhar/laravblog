@@ -14,11 +14,13 @@ class PostFactory extends Factory
      */
     public function definition()
     {
+        $image = $this->faker->image('public/storage/public', 400, 300, null, false);
+
         return [
             'title'=>$this->faker->realText(50),
             'content'=>$this->faker->realText,
             'author_id'=>User::inRandomOrder()->first()->id,
-            'image'=>$this->faker->imageUrl(),
+            'image'=>'public/'.$image,
         ];
     }
 }
