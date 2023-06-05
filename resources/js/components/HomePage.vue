@@ -39,6 +39,7 @@
 
 <script>
 import PostModal from "./PostModal.vue";
+
 export default {
     components: {PostModal},
     data() {
