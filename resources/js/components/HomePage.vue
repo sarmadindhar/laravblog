@@ -8,7 +8,7 @@
         <v-row justify="center">
             <v-col cols="12" sm="6" md="4" v-for="(post, index) in paginatedPosts" :key="index">
                 <v-card>
-                    <v-img :src="post.image" height="200px"></v-img>
+                    <v-img :src="getImage(post.image)" height="200px"></v-img>
                     <v-card-title>
                         <span v-html="highlightText(post.title)"></span>
                     </v-card-title>
@@ -46,6 +46,7 @@ export default {
     data() {
         return {
             posts: [],
+            baseUrl:process.env.IMAGE_BASE_URL,
             currentPage: 1,
             postsPerPage: 6,
             totalPosts: 0 ,
@@ -88,6 +89,10 @@ export default {
         openEditModal(post) {
             this.selectedPost = post;
             this.$refs.postModal.dialog = true;
+        },
+        getImage(url){
+            return window.baseIMAGE_URL + url;
+
         },
 
         savePost(editedPost) {

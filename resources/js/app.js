@@ -4,6 +4,7 @@ import Vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.min.css';
 import '@mdi/font/css/materialdesignicons.css';
 
+console.log(window.baseIMAGE_URL)
 import router from './router'
 import store from './store'
 

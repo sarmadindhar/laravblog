@@ -24,6 +24,10 @@
         </v-main>
     </v-app>
 </div>
+<script>
+    window.baseIMAGE_URL = "{{env('IMAGE_BASE_URL')}}"
+</script>
 <script src="{{ mix('js/app.js') }}"></script>
+
 </body>
 </html>

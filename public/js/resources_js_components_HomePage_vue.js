@@ -13,6 +13,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _PostModal_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PostModal.vue */ "./resources/js/components/PostModal.vue");
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* provided dependency */ var process = __webpack_require__(/*! process/browser.js */ "./node_modules/process/browser.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
@@ -68,6 +69,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
   data: function data() {
     return {
       posts: [],
+      baseUrl: process.env.IMAGE_BASE_URL,
       currentPage: 1,
       postsPerPage: 6,
       totalPosts: 0,
@@ -108,6 +110,9 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     openEditModal: function openEditModal(post) {
       this.selectedPost = post;
       this.$refs.postModal.dialog = true;
+    },
+    getImage: function getImage(url) {
+      return window.baseIMAGE_URL + url;
     },
     savePost: function savePost(editedPost) {
       this.savePostData(editedPost);
@@ -435,7 +440,9 @@ var render = function () {
               _c(
                 "v-card",
                 [
-                  _c("v-img", { attrs: { src: post.image, height: "200px" } }),
+                  _c("v-img", {
+                    attrs: { src: _vm.getImage(post.image), height: "200px" },
+                  }),
                   _vm._v(" "),
                   _c("v-card-title", [
                     _c("span", {
