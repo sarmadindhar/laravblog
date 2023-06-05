@@ -22,5 +22,3 @@ Route::apiResource('/post',\App\Http\Controllers\API\PostController::class)
     ->only('store','destroy','update')
     ->middleware('auth:sanctum');
 Route::post('/posts/like/{id}',[\App\Http\Controllers\API\PostController::class,'like'])->middleware('auth:sanctum');
-
-

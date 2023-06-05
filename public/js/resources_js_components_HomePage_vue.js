@@ -107,7 +107,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       return Math.ceil(this.totalPosts / this.postsPerPage);
     }
   }),
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['fetchPosts', 'savePostData', 'createPost', 'likePost'])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['fetchPosts', 'savePostData', 'createPost', 'likePost', 'delete'])), {}, {
     openEditModal: function openEditModal(post) {
       this.selectedPost = post;
       this.$refs.postModal.dialog = true;
@@ -119,7 +119,10 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         this.createPost(editedPost);
       }
     },
-    deletePost: function deletePost(post) {},
+    deletePost: function deletePost(post) {
+      console.log(post);
+      this["delete"](post);
+    },
     like: function like(post) {
       this.likePost(post);
     },

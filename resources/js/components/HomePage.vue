@@ -87,7 +87,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['fetchPosts','savePostData','createPost','likePost']),
+        ...mapActions(['fetchPosts','savePostData','createPost','likePost','delete']),
         openEditModal(post) {
             this.selectedPost = post;
             this.$refs.postModal.dialog = true;
@@ -102,6 +102,8 @@ export default {
         },
 
         deletePost(post){
+            console.log(post)
+            this.delete(post);
         },
 
         like(post) {

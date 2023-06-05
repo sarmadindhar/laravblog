@@ -56,6 +56,15 @@ const actions = {
             console.error('Error fetching posts:', error);
         }
     },
+
+    async delete({ commit },postData) {
+        try {
+            const response = await axios.delete(`/api/post/${postData.id}`);
+            commit('deletePost', postData.id);
+        } catch (error) {
+            console.error('Error fetching posts:', error);
+        }
+    },
 };
 
 const mutations = {
@@ -72,6 +81,11 @@ const mutations = {
 
     createPost:(state,newPost)=>{
         state.posts.data.posts.unshift(newPost);
+    },
+
+    deletePost:(state,postID)=>{
+        const index = state.posts.data.posts.findIndex(post => post.id === postID);
+        state.posts.data.posts.splice(index, 1);
     }
 
 

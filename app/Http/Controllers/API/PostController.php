@@ -41,7 +41,12 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $post = Post::create($request->all()+['author_id'=>1]);
+        $data = $request->only('title','content')+['author_id'=>auth()->user()->id];
+        if($request->hasFile('image')){
+            $path = Storage::disk('local')->put('images', $request->image);
+            $data['image']=$path;
+        }
+        $post = Post::create($data);
         return response()->json(['message'=>'success','data'=>$post]);
 
     }
