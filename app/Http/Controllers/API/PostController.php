@@ -16,7 +16,7 @@ class PostController extends Controller
     {
         $posts = Post::orderBy('id','DESC')->when($request->search,function($post) use ($request){
             $post->where('title','LIKE','%'.$request->search.'%')->orWhere('content','LIKE','%'.$request->search.'%');
-        })->paginate(30);
+        })->paginate($request->limit);
         return response()->json([
             'posts' => $posts->items(),
             'totalPosts' => $posts->total(),

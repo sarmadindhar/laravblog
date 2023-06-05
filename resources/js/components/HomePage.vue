@@ -29,7 +29,7 @@
         </v-row>
 
         <v-row justify="center">
-            <v-pagination v-model="currentPage" :length="0" ></v-pagination>
+            <v-pagination v-model="currentPage" :length="totalPages" @input="paginatePosts"></v-pagination>
         </v-row>
 
         <post-modal :post="selectedPost" ref="postModal" @save="savePost"></post-modal>
@@ -39,63 +39,15 @@
 
 <script>
 import PostModal from "./PostModal.vue";
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
     components: {PostModal},
     data() {
         return {
-            posts: [
-                {
-                    id:1,
-                    title:"Post One",
-                    description:"My post desc",
-                    image:"https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"
-                },
-                {
-                    id:2,
-                    title:"Post Two",
-                    description:"My post desc",
-                    image:"https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"
-                },
-                {
-                    id:1,
-                    title:"Post One",
-                    description:"My post desc",
-                    image:"https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"
-                },
-                {
-                    id:2,
-                    title:"Post Two",
-                    description:"My post desc",
-                    image:"https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"
-                },
-                {
-                    id:1,
-                    title:"Post One",
-                    description:"My post desc",
-                    image:"https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"
-                },
-                {
-                    id:2,
-                    title:"Post Two",
-                    description:"My post desc",
-                    image:"https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"
-                },
-                {
-                    id:1,
-                    title:"Post One",
-                    description:"My post desc",
-                    image:"https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"
-                },
-                {
-                    id:2,
-                    title:"Post Two",
-                    description:"My post desc",
-                    image:"https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"
-                }
-            ],
+            posts: [],
             currentPage: 1,
-            postsPerPage: 30,
+            postsPerPage: 6,
             totalPosts: 0 ,
             search:"",
             selectedPost: {},
@@ -109,20 +61,30 @@ export default {
         };
     },
     created() {
-
+        const params = {
+            page: this.currentPage,
+            limit: this.postsPerPage,
+            search:this.search
+        }
+        this.fetchPosts(params);
     },
     watch: {
-
+        allPosts(newPosts) {
+            this.posts = newPosts.data.posts;
+            this.totalPosts = newPosts.data.totalPosts;
+        },
     },
     computed: {
-
-
+        ...mapGetters(['allPosts']),
+        paginatedPosts() {
+            return this.posts;
+        },
+        totalPages() {
+            return Math.ceil(this.totalPosts / this.postsPerPage);
+        }
     },
     methods: {
-        fetchPosts() {
-
-        },
-
+        ...mapActions(['fetchPosts']),
         openEditModal(post) {
         },
         savePost(editedPost) {
@@ -134,6 +96,12 @@ export default {
         },
         searchPosts() {
             this.currentPage = 1;
+            const params = {
+                page: this.currentPage,
+                limit: this.postsPerPage,
+                search:this.search
+            }
+            this.fetchPosts(params);
         },
         highlightText(text) {
             if (!this.search || this.search==='') {
@@ -142,9 +110,14 @@ export default {
             const regex = new RegExp(this.search, 'gi');
             return text.replace(regex, match => `<span class="highlight">${match}</span>`);
         },
-
-        paginatedPosts() {
-            return undefined;
+        paginatePosts(page) {
+            const params = {
+                page: this.currentPage,
+                limit: this.postsPerPage,
+                search:this.search
+            }
+            this.currentPage = page;
+            this.fetchPosts(params);
         }
 
     }

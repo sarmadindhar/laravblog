@@ -12,6 +12,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _PostModal_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PostModal.vue */ "./resources/js/components/PostModal.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 //
 //
 //
@@ -51,6 +58,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -59,49 +67,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      posts: [{
-        id: 1,
-        title: "Post One",
-        description: "My post desc",
-        image: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"
-      }, {
-        id: 2,
-        title: "Post Two",
-        description: "My post desc",
-        image: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"
-      }, {
-        id: 1,
-        title: "Post One",
-        description: "My post desc",
-        image: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"
-      }, {
-        id: 2,
-        title: "Post Two",
-        description: "My post desc",
-        image: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"
-      }, {
-        id: 1,
-        title: "Post One",
-        description: "My post desc",
-        image: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"
-      }, {
-        id: 2,
-        title: "Post Two",
-        description: "My post desc",
-        image: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"
-      }, {
-        id: 1,
-        title: "Post One",
-        description: "My post desc",
-        image: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"
-      }, {
-        id: 2,
-        title: "Post Two",
-        description: "My post desc",
-        image: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"
-      }],
+      posts: [],
       currentPage: 1,
-      postsPerPage: 30,
+      postsPerPage: 6,
       totalPosts: 0,
       search: "",
       selectedPost: {},
@@ -114,17 +82,41 @@ __webpack_require__.r(__webpack_exports__);
       authenticated: true
     };
   },
-  created: function created() {},
-  watch: {},
-  computed: {},
-  methods: {
-    fetchPosts: function fetchPosts() {},
+  created: function created() {
+    var params = {
+      page: this.currentPage,
+      limit: this.postsPerPage,
+      search: this.search
+    };
+    this.fetchPosts(params);
+  },
+  watch: {
+    allPosts: function allPosts(newPosts) {
+      this.posts = newPosts.data.posts;
+      this.totalPosts = newPosts.data.totalPosts;
+    }
+  },
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(['allPosts'])), {}, {
+    paginatedPosts: function paginatedPosts() {
+      return this.posts;
+    },
+    totalPages: function totalPages() {
+      return Math.ceil(this.totalPosts / this.postsPerPage);
+    }
+  }),
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['fetchPosts'])), {}, {
     openEditModal: function openEditModal(post) {},
     savePost: function savePost(editedPost) {},
     deletePost: function deletePost(post) {},
     likePost: function likePost(index) {},
     searchPosts: function searchPosts() {
       this.currentPage = 1;
+      var params = {
+        page: this.currentPage,
+        limit: this.postsPerPage,
+        search: this.search
+      };
+      this.fetchPosts(params);
     },
     highlightText: function highlightText(text) {
       if (!this.search || this.search === '') {
@@ -135,10 +127,16 @@ __webpack_require__.r(__webpack_exports__);
         return "<span class=\"highlight\">".concat(match, "</span>");
       });
     },
-    paginatedPosts: function paginatedPosts() {
-      return undefined;
+    paginatePosts: function paginatePosts(page) {
+      var params = {
+        page: this.currentPage,
+        limit: this.postsPerPage,
+        search: this.search
+      };
+      this.currentPage = page;
+      this.fetchPosts(params);
     }
-  }
+  })
 });
 
 /***/ }),
@@ -484,7 +482,8 @@ var render = function () {
         { attrs: { justify: "center" } },
         [
           _c("v-pagination", {
-            attrs: { length: 0 },
+            attrs: { length: _vm.totalPages },
+            on: { input: _vm.paginatePosts },
             model: {
               value: _vm.currentPage,
               callback: function ($$v) {
