@@ -60,7 +60,7 @@ export default {
                 content: '',
                 image: null
             },
-            authenticated:true
+            authenticated:this.$store.state.auth.authenticated
         };
     },
     created() {

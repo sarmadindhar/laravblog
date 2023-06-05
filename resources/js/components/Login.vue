@@ -25,18 +25,34 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
+
 export default {
     data() {
         return {
             auth:{
-                email:"",
-                password:""
+                email:"admin@admin.com",
+                password:"12345678"
             },
             processing:false
         }
     },
     methods: {
-
+        ...mapActions(['loginUser']),
+        async login(){
+            this.processing = true
+            await axios.get('/sanctum/csrf-cookie')
+            await axios.post('/login',this.auth).then(({data})=>{
+                console.log(data)
+                this.loginUser()
+            }).catch(({response:{data}})=>{
+                console.log(data)
+                alert(data.message)
+            }).finally((e)=>{
+                this.processing = false
+                console.log(e)
+            })
+        },
     }
 };
 </script>

@@ -20,16 +20,22 @@
 </template>
 
 <script>
+import router from "../../router";
+import {mapActions} from "vuex";
+
 export default {
     data() {
         return {
-            user:{id:1,name:"sarmad"},
-            authenticated:true,
+            user:this.$store.state.auth.user,
+            authenticated:this.$store.state.auth.authenticated,
         };
     },
     methods:{
+        ...mapActions(['signOut']),
         async logout(){
-            router.push({name:'login'})
+            await axios.post('/logout').then(({data})=>{
+                this.signOut()
+            })
         },
         loginRedirect(){
             router.push({name:'login'})

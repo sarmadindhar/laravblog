@@ -82,7 +82,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         content: '',
         image: null
       },
-      authenticated: true
+      authenticated: this.$store.state.auth.authenticated
     };
   },
   created: function created() {
