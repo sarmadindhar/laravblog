@@ -23,7 +23,8 @@ class PostController extends Controller
             }]);
         })
             ->when($request->search,function($post) use ($request){
-                $post->where('posts.title','LIKE','%'.$request->search.'%')->orWhere('posts.content','LIKE','%'.$request->search.'%');
+                $post->where('posts.title','LIKE','%'.$request->search.'%')
+                    ->orWhereRaw("MATCH(content) AGAINST(? IN NATURAL LANGUAGE MODE)", [$request->search]);
             })->orderBY('id','DESC')
             ->groupBy('posts.id')
             ->paginate($request->limit);
