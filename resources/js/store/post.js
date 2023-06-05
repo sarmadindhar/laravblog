@@ -26,7 +26,7 @@ const actions = {
             formData.append('image', postData.image);
             formData.append('title', postData.title);
             formData.append('content', postData.content);
-            const response = await axios.post(`/api/sspost`,formData);
+            const response = await axios.post(`/api/post`,formData);
             router.push({name:'home'})
         } catch (error) {
             console.error('Error fetching posts:', error);

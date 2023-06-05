@@ -76,11 +76,6 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       _router__WEBPACK_IMPORTED_MODULE_0__["default"].push({
         name: 'login'
       });
-    },
-    postRedirect: function postRedirect() {
-      _router__WEBPACK_IMPORTED_MODULE_0__["default"].push({
-        name: 'post'
-      });
     }
   })
 });

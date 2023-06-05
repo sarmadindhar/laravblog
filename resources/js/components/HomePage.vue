@@ -100,6 +100,10 @@ export default {
         },
 
         like(post) {
+            if(!this.authenticated){
+                alert('login first');
+                return
+            }
             this.likePost(post);
         },
         searchPosts() {

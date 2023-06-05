@@ -40,9 +40,6 @@ export default {
         loginRedirect(){
             router.push({name:'login'})
         },
-        postRedirect(){
-            router.push({name:'post'})
-        }
 
     }
 };

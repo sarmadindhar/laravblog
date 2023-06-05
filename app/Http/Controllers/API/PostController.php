@@ -43,11 +43,11 @@ class PostController extends Controller
     {
         $data = $request->only('title','content')+['author_id'=>auth()->user()->id];
         if($request->hasFile('image')){
-            $path = Storage::disk('local')->put('images', $request->image);
+            $path = Storage::disk(env('DEFAULT_MEDIA_DISC'))->put('public', $request->image);
             $data['image']=$path;
         }
         $post = Post::create($data);
-        return response()->json(['message'=>'success','data'=>$post]);
+        return response()->json(['message'=>'success','data'=>$post->getDetailed()]);
 
     }
 
@@ -62,13 +62,16 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
         $data = $request->only('title','content');
         if($request->hasFile('image')){
-            $imageName = time().'.'.$request->image->extension();
-            $path = Storage::disk('local')->put('images', $request->image);
-            $path = Storage::disk('local')->url($path);
-//            $data['image']=$path;
+            if (!empty($post->image)) {
+                if (Storage::disk(env('DEFAULT_MEDIA_DISC'))->exists($post->image)) {
+                    Storage::disk(env('DEFAULT_MEDIA_DISC'))->delete($post->image);
+                }
+            }
+            $path = Storage::disk(env('DEFAULT_MEDIA_DISC'))->put('public', $request->image);
+            $data['image']=$path;
         }
         $post->update($data);
-        return response()->json(['message'=>'success','data'=>$post]);
+        return response()->json(['message'=>'success','data'=>$post->getDetailed()]);
     }
 
     /**
@@ -87,9 +90,6 @@ class PostController extends Controller
     public function like($id){
         $post = Post::findOrFail($id);
         $post->likes()->toggle(auth()->user()->id);
-        $post = Post::withCount('likes as total_likes')->withCount(['likes as is_liked'=>function($q){
-            $q->where('user_id',auth()->user()->id);
-        }])->findOrFail($post->id);
-        return response()->json(['message'=>'success','data'=>$post]);
+        return response()->json(['message'=>'success','data'=>$post->getDetailed()]);
     }
 }

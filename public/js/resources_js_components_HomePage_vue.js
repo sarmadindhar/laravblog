@@ -117,6 +117,10 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       this["delete"](post);
     },
     like: function like(post) {
+      if (!this.authenticated) {
+        alert('login first');
+        return;
+      }
       this.likePost(post);
     },
     searchPosts: function searchPosts() {

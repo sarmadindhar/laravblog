@@ -40,7 +40,8 @@ export default {
             formData.append('image', this.post.image);
             formData.append('title', this.post.title);
             formData.append('content', this.post.content);
-            await axios.post('/api/post',this.user).then(response=>{
+            await axios.post('/api/post',formData).then(response=>{
+                console.log(response)
             }).catch(({response:{data}})=>{
                 alert(data.message)
             }).finally(()=>{

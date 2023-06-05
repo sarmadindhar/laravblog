@@ -64,7 +64,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               formData.append('title', _this.post.title);
               formData.append('content', _this.post.content);
               _context.next = 7;
-              return axios.post('/api/post', _this.user).then(function (response) {})["catch"](function (_ref) {
+              return axios.post('/api/post', formData).then(function (response) {
+                console.log(response);
+              })["catch"](function (_ref) {
                 var data = _ref.response.data;
                 alert(data.message);
               })["finally"](function () {
