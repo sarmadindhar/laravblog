@@ -4,9 +4,6 @@
             <v-col cols="8">
                 <v-text-field v-model="search" label="Search" @input="searchPosts"></v-text-field>
             </v-col>
-            <v-col cols="4">
-                <v-btn color="primary" @click="openEditModal()" v-if="authenticated">Create Post</v-btn>
-            </v-col>
         </v-row>
         <v-row justify="center">
             <v-col cols="12" sm="6" md="4" v-for="(post, index) in paginatedPosts" :key="index">
@@ -94,11 +91,7 @@ export default {
         },
 
         savePost(editedPost) {
-            if(editedPost.id && editedPost.id!==''){
-                this.savePostData(editedPost);
-            }else{
-                this.createPost(editedPost);
-            }
+            this.savePostData(editedPost);
         },
 
         deletePost(post){

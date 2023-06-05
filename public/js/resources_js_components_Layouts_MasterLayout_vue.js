@@ -76,6 +76,11 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       _router__WEBPACK_IMPORTED_MODULE_0__["default"].push({
         name: 'login'
       });
+    },
+    postRedirect: function postRedirect() {
+      _router__WEBPACK_IMPORTED_MODULE_0__["default"].push({
+        name: 'post'
+      });
     }
   })
 });
@@ -173,14 +178,12 @@ var render = function () {
         "v-app-bar",
         { attrs: { app: "" } },
         [
-          _c("v-toolbar-title", [_vm._v("LARA-VUE")]),
+          _c("v-toolbar-title", [_vm._v("Lara-V-Blog")]),
           _vm._v(" "),
           _c("v-spacer"),
           _vm._v(" "),
           _vm.authenticated
-            ? _c("v-btn", { attrs: { text: "" }, on: { click: _vm.logout } }, [
-                _vm._v("Add Post"),
-              ])
+            ? _c("v-btn", { attrs: { to: "/post" } }, [_vm._v("Add Post")])
             : _vm._e(),
           _vm._v(" "),
           _vm.authenticated
@@ -190,11 +193,9 @@ var render = function () {
             : _vm._e(),
           _vm._v(" "),
           !_vm.authenticated
-            ? _c(
-                "v-btn",
-                { attrs: { text: "" }, on: { click: _vm.loginRedirect } },
-                [_vm._v("\n            Login\n        ")]
-              )
+            ? _c("v-btn", { attrs: { to: "/login" } }, [
+                _vm._v("\n            Login\n        "),
+              ])
             : _vm._e(),
         ],
         1

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import router from "../router";
 const state = {
     posts: {
         data:[],
@@ -15,6 +16,18 @@ const actions = {
         try {
             const response = await axios.get('/api/feeds',{params});
             commit('setPosts', response);
+        } catch (error) {
+            console.error('Error fetching posts:', error);
+        }
+    },
+    async crateNewPost({ commit },postData) {
+        try {
+            const formData = new FormData();
+            formData.append('image', postData.image);
+            formData.append('title', postData.title);
+            formData.append('content', postData.content);
+            const response = await axios.post(`/api/sspost`,formData);
+            router.push({name:'home'})
         } catch (error) {
             console.error('Error fetching posts:', error);
         }

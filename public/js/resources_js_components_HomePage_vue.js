@@ -58,9 +58,6 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 //
 //
 //
-//
-//
-//
 
 
 
@@ -113,11 +110,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       this.$refs.postModal.dialog = true;
     },
     savePost: function savePost(editedPost) {
-      if (editedPost.id && editedPost.id !== '') {
-        this.savePostData(editedPost);
-      } else {
-        this.createPost(editedPost);
-      }
+      this.savePostData(editedPost);
     },
     deletePost: function deletePost(post) {
       console.log(post);
@@ -420,28 +413,6 @@ var render = function () {
                   expression: "search",
                 },
               }),
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-col",
-            { attrs: { cols: "4" } },
-            [
-              _vm.authenticated
-                ? _c(
-                    "v-btn",
-                    {
-                      attrs: { color: "primary" },
-                      on: {
-                        click: function ($event) {
-                          return _vm.openEditModal()
-                        },
-                      },
-                    },
-                    [_vm._v("Create Post")]
-                  )
-                : _vm._e(),
             ],
             1
           ),
