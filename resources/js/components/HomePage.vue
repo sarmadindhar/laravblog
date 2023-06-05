@@ -29,7 +29,7 @@
         </v-row>
 
         <v-row justify="center">
-            <v-pagination v-model="currentPage" :length="totalPages" @input="paginatePosts"></v-pagination>
+            <v-pagination v-model="currentPage" :length="0" ></v-pagination>
         </v-row>
 
         <post-modal :post="selectedPost" ref="postModal" @save="savePost"></post-modal>
@@ -114,12 +114,8 @@ export default {
 
     },
     computed: {
-        paginatedPosts() {
-            return this.posts;
-        },
-        totalPages() {
-            return Math.ceil(this.totalPosts / this.postsPerPage);
-        }
+
+
     },
     methods: {
         fetchPosts() {

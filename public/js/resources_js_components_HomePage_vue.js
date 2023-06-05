@@ -116,14 +116,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {},
   watch: {},
-  computed: {
-    paginatedPosts: function paginatedPosts() {
-      return this.posts;
-    },
-    totalPages: function totalPages() {
-      return Math.ceil(this.totalPosts / this.postsPerPage);
-    }
-  },
+  computed: {},
   methods: {
     fetchPosts: function fetchPosts() {},
     openEditModal: function openEditModal(post) {},
@@ -491,8 +484,7 @@ var render = function () {
         { attrs: { justify: "center" } },
         [
           _c("v-pagination", {
-            attrs: { length: _vm.totalPages },
-            on: { input: _vm.paginatePosts },
+            attrs: { length: 0 },
             model: {
               value: _vm.currentPage,
               callback: function ($$v) {
