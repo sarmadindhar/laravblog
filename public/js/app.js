@@ -5309,6 +5309,36 @@ var actions = {
         }
       }, _callee2, null, [[1, 14]]);
     }))();
+  },
+  createPost: function createPost(_ref3, postData) {
+    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+      var commit, formData, response;
+      return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+        while (1) switch (_context3.prev = _context3.next) {
+          case 0:
+            commit = _ref3.commit;
+            _context3.prev = 1;
+            formData = new FormData();
+            formData.append('image', postData.image);
+            formData.append('title', postData.title);
+            formData.append('content', postData.content);
+            _context3.next = 8;
+            return axios__WEBPACK_IMPORTED_MODULE_0___default().post("/api/post", formData);
+          case 8:
+            response = _context3.sent;
+            commit('createPost', response.data.data);
+            _context3.next = 15;
+            break;
+          case 12:
+            _context3.prev = 12;
+            _context3.t0 = _context3["catch"](1);
+            console.error('Error fetching posts:', _context3.t0);
+          case 15:
+          case "end":
+            return _context3.stop();
+        }
+      }, _callee3, null, [[1, 12]]);
+    }))();
   }
 };
 var mutations = {
@@ -5322,6 +5352,9 @@ var mutations = {
     if (index !== -1) {
       state.posts.data.posts.splice(index, 1, updatedPost);
     }
+  },
+  createPost: function createPost(state, newPost) {
+    state.posts.data.posts.unshift(newPost);
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({

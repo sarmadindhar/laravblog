@@ -58,6 +58,9 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 //
 //
 //
+//
+//
+//
 
 
 
@@ -104,13 +107,17 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       return Math.ceil(this.totalPosts / this.postsPerPage);
     }
   }),
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['fetchPosts', 'savePostData'])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['fetchPosts', 'savePostData', 'createPost'])), {}, {
     openEditModal: function openEditModal(post) {
       this.selectedPost = post;
       this.$refs.postModal.dialog = true;
     },
     savePost: function savePost(editedPost) {
-      this.savePostData(editedPost);
+      if (editedPost.id && editedPost.id !== '') {
+        this.savePostData(editedPost);
+      } else {
+        this.createPost(editedPost);
+      }
     },
     deletePost: function deletePost(post) {},
     likePost: function likePost(index) {},
@@ -187,7 +194,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
   props: {
     post: {
       type: Object,
-      required: true
+      required: false
     }
   },
   data: function data() {
@@ -395,7 +402,7 @@ var render = function () {
         [
           _c(
             "v-col",
-            { attrs: { cols: "12" } },
+            { attrs: { cols: "8" } },
             [
               _c("v-text-field", {
                 attrs: { label: "Search" },
@@ -408,6 +415,28 @@ var render = function () {
                   expression: "search",
                 },
               }),
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-col",
+            { attrs: { cols: "4" } },
+            [
+              _vm.authenticated
+                ? _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "primary" },
+                      on: {
+                        click: function ($event) {
+                          return _vm.openEditModal()
+                        },
+                      },
+                    },
+                    [_vm._v("Create Post")]
+                  )
+                : _vm._e(),
             ],
             1
           ),

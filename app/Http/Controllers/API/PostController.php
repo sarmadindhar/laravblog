@@ -38,11 +38,12 @@ class PostController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        $post = Post::create($request->all()+['author_id'=>1]);
+        return response()->json(['message'=>'success','data'=>$post]);
+
     }
 
     /**

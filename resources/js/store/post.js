@@ -34,6 +34,19 @@ const actions = {
             console.error('Error fetching posts:', error);
         }
     },
+
+    async createPost({ commit },postData) {
+        try {
+            const formData = new FormData();
+            formData.append('image', postData.image);
+            formData.append('title', postData.title);
+            formData.append('content', postData.content);
+            const response = await axios.post(`/api/post`,formData);
+            commit('createPost', response.data.data);
+        } catch (error) {
+            console.error('Error fetching posts:', error);
+        }
+    },
 };
 
 const mutations = {
@@ -46,6 +59,10 @@ const mutations = {
         if (index !== -1) {
             state.posts.data.posts.splice(index, 1, updatedPost);
         }
+    },
+
+    createPost:(state,newPost)=>{
+        state.posts.data.posts.unshift(newPost);
     }
 
 
