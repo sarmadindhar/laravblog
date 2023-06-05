@@ -19,10 +19,10 @@
                         <span v-html="highlightText(post.content)"></span>
                     </v-card-text>
                     <v-card-actions>
-                        <v-btn icon @click="likePost(index)">
-                            <v-icon >mdi-heart</v-icon>
+                        <v-btn icon @click="like(post)">
+                            <v-icon :color="post.is_liked ? 'red' : 'grey'">mdi-heart</v-icon>
                         </v-btn>
-                        <span>4</span>
+                        <span v-if="post.total_likes">{{post.total_likes }}</span>
                         <v-spacer></v-spacer>
                         <v-icon small class="mr-2" @click="openEditModal(post)" v-if="authenticated">mdi-pencil</v-icon>
                         <v-icon small @click="deletePost(post)" v-if="authenticated">mdi-delete</v-icon>
@@ -87,7 +87,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['fetchPosts','savePostData','createPost']),
+        ...mapActions(['fetchPosts','savePostData','createPost','likePost']),
         openEditModal(post) {
             this.selectedPost = post;
             this.$refs.postModal.dialog = true;
@@ -103,8 +103,9 @@ export default {
 
         deletePost(post){
         },
-        likePost(index) {
 
+        like(post) {
+            this.likePost(post);
         },
         searchPosts() {
             this.currentPage = 1;

@@ -107,7 +107,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       return Math.ceil(this.totalPosts / this.postsPerPage);
     }
   }),
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['fetchPosts', 'savePostData', 'createPost'])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['fetchPosts', 'savePostData', 'createPost', 'likePost'])), {}, {
     openEditModal: function openEditModal(post) {
       this.selectedPost = post;
       this.$refs.postModal.dialog = true;
@@ -120,7 +120,9 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       }
     },
     deletePost: function deletePost(post) {},
-    likePost: function likePost(index) {},
+    like: function like(post) {
+      this.likePost(post);
+    },
     searchPosts: function searchPosts() {
       this.currentPage = 1;
       var params = {
@@ -482,15 +484,25 @@ var render = function () {
                           attrs: { icon: "" },
                           on: {
                             click: function ($event) {
-                              return _vm.likePost(index)
+                              return _vm.like(post)
                             },
                           },
                         },
-                        [_c("v-icon", [_vm._v("mdi-heart")])],
+                        [
+                          _c(
+                            "v-icon",
+                            {
+                              attrs: { color: post.is_liked ? "red" : "grey" },
+                            },
+                            [_vm._v("mdi-heart")]
+                          ),
+                        ],
                         1
                       ),
                       _vm._v(" "),
-                      _c("span", [_vm._v("4")]),
+                      post.total_likes
+                        ? _c("span", [_vm._v(_vm._s(post.total_likes))])
+                        : _vm._e(),
                       _vm._v(" "),
                       _c("v-spacer"),
                       _vm._v(" "),

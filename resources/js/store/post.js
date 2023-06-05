@@ -13,7 +13,7 @@ const getters = {
 const actions = {
     async fetchPosts({ commit },params) {
         try {
-            const response = await axios.get('/api/post',{params});
+            const response = await axios.get('/api/feeds',{params});
             commit('setPosts', response);
         } catch (error) {
             console.error('Error fetching posts:', error);
@@ -29,6 +29,15 @@ const actions = {
             formData.append('id', postData.id);
             formData.append('_method', 'PUT');
             const response = await axios.post(`/api/post/${postData.id}`,formData);
+            commit('updatePost', response.data.data);
+        } catch (error) {
+            console.error('Error fetching posts:', error);
+        }
+    },
+
+    async likePost({ commit },postData) {
+        try {
+            const response = await axios.post(`/api/posts/like/${postData.id}`);
             commit('updatePost', response.data.data);
         } catch (error) {
             console.error('Error fetching posts:', error);
