@@ -84,11 +84,16 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['fetchPosts']),
+        ...mapActions(['fetchPosts','savePostData']),
         openEditModal(post) {
+            this.selectedPost = post;
+            this.$refs.postModal.dialog = true;
         },
+
         savePost(editedPost) {
+            this.savePostData(editedPost);
         },
+
         deletePost(post){
         },
         likePost(index) {
@@ -103,6 +108,7 @@ export default {
             }
             this.fetchPosts(params);
         },
+
         highlightText(text) {
             if (!this.search || this.search==='') {
                 return text;
@@ -110,6 +116,7 @@ export default {
             const regex = new RegExp(this.search, 'gi');
             return text.replace(regex, match => `<span class="highlight">${match}</span>`);
         },
+
         paginatePosts(page) {
             const params = {
                 page: this.currentPage,

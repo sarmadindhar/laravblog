@@ -5277,11 +5277,51 @@ var actions = {
         }
       }, _callee, null, [[1, 8]]);
     }))();
+  },
+  savePostData: function savePostData(_ref2, postData) {
+    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+      var commit, formData, response;
+      return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+        while (1) switch (_context2.prev = _context2.next) {
+          case 0:
+            commit = _ref2.commit;
+            _context2.prev = 1;
+            formData = new FormData();
+            formData.append('image', postData.image);
+            formData.append('title', postData.title);
+            formData.append('content', postData.content);
+            formData.append('id', postData.id);
+            formData.append('_method', 'PUT');
+            _context2.next = 10;
+            return axios__WEBPACK_IMPORTED_MODULE_0___default().post("/api/post/".concat(postData.id), formData);
+          case 10:
+            response = _context2.sent;
+            commit('updatePost', response.data.data);
+            _context2.next = 17;
+            break;
+          case 14:
+            _context2.prev = 14;
+            _context2.t0 = _context2["catch"](1);
+            console.error('Error fetching posts:', _context2.t0);
+          case 17:
+          case "end":
+            return _context2.stop();
+        }
+      }, _callee2, null, [[1, 14]]);
+    }))();
   }
 };
 var mutations = {
   setPosts: function setPosts(state, posts) {
     state.posts = posts;
+  },
+  updatePost: function updatePost(state, updatedPost) {
+    var index = state.posts.data.posts.findIndex(function (post) {
+      return post.id === updatedPost.id;
+    });
+    if (index !== -1) {
+      state.posts.data.posts.splice(index, 1, updatedPost);
+    }
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({

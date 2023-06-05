@@ -30,24 +30,44 @@ export default {
         return {
             dialog: false,
             editedPost: {
-                id:null,
+                id:'',
                 title: '',
                 content: '',
-                image: null
+                image: ''
             },
             imageFile: null,
         };
     },
 
+    watch: {
+        post: {
+            immediate: true,
+            handler(newPost) {
+                this.editedPost = { ...newPost }; // Load post data into the editedPost object
+            }
+        }
+    },
+    mounted() {
+        this.loadPostData();
+    },
     methods: {
-
+        loadPostData() {
+            this.editedPost.id = this.post.id;
+            this.editedPost.title = this.post.title;
+            this.editedPost.content = this.post.content;
+        },
         saveChanges() {
+            const editedPost = {
+                ...this.editedPost,
+                image: this.imageFile
+            };
+            this.$emit('save', editedPost);
             this.dialog = false;
         },
+
         cancel() {
             this.dialog = false;
         },
-
     }
 };
 </script>

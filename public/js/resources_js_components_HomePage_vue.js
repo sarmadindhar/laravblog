@@ -104,9 +104,14 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       return Math.ceil(this.totalPosts / this.postsPerPage);
     }
   }),
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['fetchPosts'])), {}, {
-    openEditModal: function openEditModal(post) {},
-    savePost: function savePost(editedPost) {},
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['fetchPosts', 'savePostData'])), {}, {
+    openEditModal: function openEditModal(post) {
+      this.selectedPost = post;
+      this.$refs.postModal.dialog = true;
+    },
+    savePost: function savePost(editedPost) {
+      this.savePostData(editedPost);
+    },
     deletePost: function deletePost(post) {},
     likePost: function likePost(index) {},
     searchPosts: function searchPosts() {
@@ -151,6 +156,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 //
 //
 //
@@ -183,16 +194,36 @@ __webpack_require__.r(__webpack_exports__);
     return {
       dialog: false,
       editedPost: {
-        id: null,
+        id: '',
         title: '',
         content: '',
-        image: null
+        image: ''
       },
       imageFile: null
     };
   },
+  watch: {
+    post: {
+      immediate: true,
+      handler: function handler(newPost) {
+        this.editedPost = _objectSpread({}, newPost); // Load post data into the editedPost object
+      }
+    }
+  },
+  mounted: function mounted() {
+    this.loadPostData();
+  },
   methods: {
+    loadPostData: function loadPostData() {
+      this.editedPost.id = this.post.id;
+      this.editedPost.title = this.post.title;
+      this.editedPost.content = this.post.content;
+    },
     saveChanges: function saveChanges() {
+      var editedPost = _objectSpread(_objectSpread({}, this.editedPost), {}, {
+        image: this.imageFile
+      });
+      this.$emit('save', editedPost);
       this.dialog = false;
     },
     cancel: function cancel() {
