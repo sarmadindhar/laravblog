@@ -146,6 +146,10 @@ export default {
             return text.replace(regex, match => `<span class="highlight">${match}</span>`);
         },
 
+        paginatedPosts() {
+            return undefined;
+        }
+
     }
 };
 </script>

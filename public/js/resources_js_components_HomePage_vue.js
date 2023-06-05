@@ -141,6 +141,9 @@ __webpack_require__.r(__webpack_exports__);
       return text.replace(regex, function (match) {
         return "<span class=\"highlight\">".concat(match, "</span>");
       });
+    },
+    paginatedPosts: function paginatedPosts() {
+      return undefined;
     }
   }
 });
