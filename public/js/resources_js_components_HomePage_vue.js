@@ -409,7 +409,7 @@ var render = function () {
         [
           _c(
             "v-col",
-            { attrs: { cols: "8" } },
+            { attrs: { cols: "12" } },
             [
               _c("v-text-field", {
                 attrs: { label: "Search" },

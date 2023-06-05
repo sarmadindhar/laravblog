@@ -1,7 +1,7 @@
 <template>
     <v-container>
         <v-row>
-            <v-col cols="8">
+            <v-col cols="12">
                 <v-text-field v-model="search" label="Search" @input="searchPosts"></v-text-field>
             </v-col>
         </v-row>
