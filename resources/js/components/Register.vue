@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import {mapActions} from "vuex";
+
 export default {
     data() {
         return {
@@ -41,7 +43,17 @@ export default {
         };
     },
     methods:{
-
+        ...mapActions(['loginUser']),
+        async register(){
+            this.processing = true
+            await axios.post('/register',this.user).then(response=>{
+                this.loginUser()
+            }).catch(({response:{data}})=>{
+                alert(data.message)
+            }).finally(()=>{
+                this.processing = false
+            })
+        }
     }
 };
 </script>
