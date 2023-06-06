@@ -19,6 +19,10 @@ update DEFAULT_MEDIA_DISC to s3 or public
 
 #### Set Database Detail
 
+```
+php artisan migrate
+php artisan db:seed for faked data
+```
 #### Install NPM Dependencies
 
 ```
