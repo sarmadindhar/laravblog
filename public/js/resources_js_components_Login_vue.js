@@ -53,8 +53,8 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
   data: function data() {
     return {
       auth: {
-        email: "admin@admin.com",
-        password: "12345678"
+        email: "",
+        password: ""
       },
       processing: false
     };
@@ -192,6 +192,7 @@ var render = function () {
             [
               _c(
                 "v-card",
+                { staticClass: "mt-15" },
                 [
                   _c("v-card-title", { staticClass: "text-center" }, [
                     _c("h2", [_vm._v("Login")]),

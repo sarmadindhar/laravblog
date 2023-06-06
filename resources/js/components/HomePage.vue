@@ -56,7 +56,7 @@ export default {
             posts: [],
             baseUrl:process.env.IMAGE_BASE_URL,
             currentPage: 1,
-            postsPerPage: 6,
+            postsPerPage: 12,
             totalPosts: 0 ,
             selectedDate:"",
             search:"",

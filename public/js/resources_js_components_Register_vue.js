@@ -186,7 +186,7 @@ var render = function () {
         [
           _c(
             "v-col",
-            { attrs: { cols: "12", sm: "8", md: "6" } },
+            { staticClass: "mt-15", attrs: { cols: "12", sm: "8", md: "6" } },
             [
               _c(
                 "v-card",

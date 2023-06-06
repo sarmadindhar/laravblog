@@ -2,7 +2,7 @@
     <v-container>
         <v-row justify="center">
             <v-col cols="12" sm="8" md="6">
-                <v-card>
+                <v-card class="mt-15">
                     <v-card-title class="text-center">
                         <h2>Login</h2>
                     </v-card-title>
@@ -31,8 +31,8 @@ export default {
     data() {
         return {
             auth:{
-                email:"admin@admin.com",
-                password:"12345678"
+                email:"",
+                password:""
             },
             processing:false
         }
