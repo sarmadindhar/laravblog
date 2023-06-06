@@ -21,6 +21,8 @@ class PostFactory extends Factory
             'content'=>$this->faker->realText,
             'author_id'=>User::inRandomOrder()->first()->id,
             'image'=>'public/'.$image,
+            'created_at'=>$this->faker->dateTimeBetween('-3 years'),
+            'creation_date'=>$this->faker->dateTimeBetween('-3 years')
         ];
     }
 }

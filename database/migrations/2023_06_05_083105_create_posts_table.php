@@ -20,20 +20,25 @@ class CreatePostsTable extends Migration
             $table->unsignedBigInteger('author_id');
             $table->string('image')->nullable();
             $table->timestamps();
-            $table->primary(['id', 'created_at']);
+            $table->date('creation_date');
+            $table->primary(['id', 'creation_date']);
         });
         Schema::table('posts', function (Blueprint $table) {
             $table->bigIncrements('id')->change();
         });
-
         $partition = "ALTER TABLE posts
-            PARTITION BY RANGE (UNIX_TIMESTAMP(created_at))
+            PARTITION BY RANGE (TO_DAYS(creation_date))
             (
-                PARTITION p1 VALUES LESS THAN (UNIX_TIMESTAMP('2021-01-01')),
-                PARTITION p2 VALUES LESS THAN (UNIX_TIMESTAMP('2022-01-01')),
-                PARTITION p3 VALUES LESS THAN (UNIX_TIMESTAMP('2023-01-01')),
-                PARTITION pmax VALUES LESS THAN MAXVALUE
-            )";
+                PARTITION part1 VALUES LESS THAN( TO_DAYS('2021-01-01') ),
+                PARTITION part2 VALUES LESS THAN( TO_DAYS('2022-01-01') ),
+                PARTITION part3 VALUES LESS THAN( TO_DAYS('2023-03-01') ),
+                PARTITION part4 VALUES LESS THAN( TO_DAYS('2024-04-01') ),
+                PARTITION part5 VALUES LESS THAN( TO_DAYS('2025-05-01') )
+
+            )
+
+
+           ";
         \Illuminate\Support\Facades\DB::statement($partition);
     }
 

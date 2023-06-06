@@ -24,7 +24,9 @@ class PostController extends Controller
         })
             ->when($request->search,function($post) use ($request){
                 $post->where('posts.title','LIKE','%'.$request->search.'%')
-                    ->orWhereRaw("MATCH(content) AGAINST(? IN NATURAL LANGUAGE MODE)", [$request->search]);
+                ->orWhere('posts.content','LIKE','%'.$request->search.'%');
+            })->when($request->date,function($post) use ($request){
+                $post->whereRaw("creation_date < ?",[$request->date]);
             })->orderBY('id','DESC')
             ->groupBy('posts.id')
             ->paginate($request->limit);
@@ -42,7 +44,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->only('title','content')+['author_id'=>auth()->user()->id];
+        $data = $request->only('title','content')+['author_id'=>auth()->user()->id,'creation_date'=>now()];
         if($request->hasFile('image')){
             $path = Storage::disk(env('DEFAULT_MEDIA_DISC'))->put('public', $request->image);
             $data['image']=$path;

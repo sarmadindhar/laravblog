@@ -59,6 +59,14 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -73,6 +81,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       currentPage: 1,
       postsPerPage: 6,
       totalPosts: 0,
+      selectedDate: "",
       search: "",
       selectedPost: {},
       editPostData: {
@@ -81,14 +90,16 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         content: '',
         image: null
       },
-      authenticated: this.$store.state.auth.authenticated
+      authenticated: this.$store.state.auth.authenticated,
+      datePickerOpen: false
     };
   },
   created: function created() {
     var params = {
       page: this.currentPage,
       limit: this.postsPerPage,
-      search: this.search
+      search: this.search,
+      date: this.selectedDate
     };
     this.fetchPosts(params);
   },
@@ -133,7 +144,8 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       var params = {
         page: this.currentPage,
         limit: this.postsPerPage,
-        search: this.search
+        search: this.search,
+        date: this.selectedDate
       };
       this.fetchPosts(params);
     },
@@ -150,9 +162,20 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       var params = {
         page: this.currentPage,
         limit: this.postsPerPage,
-        search: this.search
+        search: this.search,
+        date: this.selectedDate
       };
       this.currentPage = page;
+      this.fetchPosts(params);
+    },
+    handleDateChange: function handleDateChange(date) {
+      this.selectedDate = date;
+      var params = {
+        page: this.currentPage,
+        limit: this.postsPerPage,
+        search: this.search,
+        date: this.selectedDate
+      };
       this.fetchPosts(params);
     }
   })
@@ -409,7 +432,7 @@ var render = function () {
         [
           _c(
             "v-col",
-            { attrs: { cols: "12" } },
+            { attrs: { cols: "18" } },
             [
               _c("v-text-field", {
                 attrs: { label: "Search" },
@@ -422,6 +445,71 @@ var render = function () {
                   expression: "search",
                 },
               }),
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-col",
+            { attrs: { cols: "4" } },
+            [
+              _c(
+                "v-menu",
+                {
+                  attrs: {
+                    "close-on-content-click": false,
+                    transition: "slide-y-transition",
+                  },
+                  scopedSlots: _vm._u([
+                    {
+                      key: "activator",
+                      fn: function (ref) {
+                        var on = ref.on
+                        return [
+                          _c(
+                            "v-text-field",
+                            _vm._g(
+                              {
+                                attrs: { label: "Select Date", readonly: "" },
+                                model: {
+                                  value: _vm.selectedDate,
+                                  callback: function ($$v) {
+                                    _vm.selectedDate = $$v
+                                  },
+                                  expression: "selectedDate",
+                                },
+                              },
+                              on
+                            )
+                          ),
+                        ]
+                      },
+                    },
+                  ]),
+                  model: {
+                    value: _vm.datePickerOpen,
+                    callback: function ($$v) {
+                      _vm.datePickerOpen = $$v
+                    },
+                    expression: "datePickerOpen",
+                  },
+                },
+                [
+                  _vm._v(" "),
+                  _c("v-date-picker", {
+                    attrs: { "no-title": "" },
+                    on: { input: _vm.handleDateChange },
+                    model: {
+                      value: _vm.selectedDate,
+                      callback: function ($$v) {
+                        _vm.selectedDate = $$v
+                      },
+                      expression: "selectedDate",
+                    },
+                  }),
+                ],
+                1
+              ),
             ],
             1
           ),

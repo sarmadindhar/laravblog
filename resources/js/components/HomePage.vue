@@ -1,8 +1,16 @@
 <template>
     <v-container>
         <v-row>
-            <v-col cols="12">
+            <v-col cols="18">
                 <v-text-field v-model="search" label="Search" @input="searchPosts"></v-text-field>
+            </v-col>
+            <v-col cols="4">
+                <v-menu v-model="datePickerOpen" :close-on-content-click="false" transition="slide-y-transition">
+                    <template v-slot:activator="{ on }">
+                        <v-text-field v-model="selectedDate" label="Select Date" readonly v-on="on"></v-text-field>
+                    </template>
+                    <v-date-picker v-model="selectedDate" no-title @input="handleDateChange"></v-date-picker>
+                </v-menu>
             </v-col>
         </v-row>
         <v-row justify="center">
@@ -50,6 +58,7 @@ export default {
             currentPage: 1,
             postsPerPage: 6,
             totalPosts: 0 ,
+            selectedDate:"",
             search:"",
             selectedPost: {},
             editPostData: {
@@ -58,14 +67,16 @@ export default {
                 content: '',
                 image: null
             },
-            authenticated:this.$store.state.auth.authenticated
+            authenticated:this.$store.state.auth.authenticated,
+            datePickerOpen:false,
         };
     },
     created() {
         const params = {
             page: this.currentPage,
             limit: this.postsPerPage,
-            search:this.search
+            search:this.search,
+            date:this.selectedDate,
         }
         this.fetchPosts(params);
     },
@@ -116,7 +127,8 @@ export default {
             const params = {
                 page: this.currentPage,
                 limit: this.postsPerPage,
-                search:this.search
+                search:this.search,
+                date:this.selectedDate,
             }
             this.fetchPosts(params);
         },
@@ -133,9 +145,22 @@ export default {
             const params = {
                 page: this.currentPage,
                 limit: this.postsPerPage,
-                search:this.search
+                search:this.search,
+                date:this.selectedDate,
             }
             this.currentPage = page;
+            this.fetchPosts(params);
+        },
+
+
+        handleDateChange(date){
+            this.selectedDate = date;
+            const params = {
+                page: this.currentPage,
+                limit: this.postsPerPage,
+                search:this.search,
+                date:this.selectedDate,
+            }
             this.fetchPosts(params);
         }
 
